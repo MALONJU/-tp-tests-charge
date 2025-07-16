@@ -6,34 +6,48 @@ Ce document présente les actions correctives identifiées suite aux tests de ch
 
 | Endpoint         | KPI Observé | Seuil    | Problème                    | Action Corrective                        | Délai |
 |------------------|-------------|----------|-----------------------------|-----------------------------------------|--------|
-| `/token`         | 780 ms      | < 300ms  | Temps de réponse élevé      | Optimisation de l'authentification + cache Redis | 48h   |
-| `/token`         | 2% erreurs  | < 0.5%   | Échecs d'authentification   | Augmentation des timeouts et mécanisme de retry | 24h   |
-| `/clients` (GET) | 350 ms      | < 250ms  | Latence base de données     | Ajout d'index + mise en cache des résultats | 36h   |
-| `/clients` (POST)| 580 ms      | < 400ms  | Traitement lent des écritures | Optimisation des validations et transactions | 72h   |
-| `/clients` (POST)| 4% erreurs  | < 1%     | Erreurs 500 lors des créations | Validation renforcée + gestion des exceptions | 48h   |
-| `/clients/{id}`  | 0.5% erreurs| < 0.1%   | Clients non trouvés         | Amélioration de la gestion des erreurs 404 | 24h   |
+| `/token`         | 24.58 ms    | ✓ Rapide | 100% échecs d'authentification | Vérification des identifiants et format de requête | 12h   |
+| `/token`         | 100% erreurs | < 0.5%   | Authentification impossible  | Correction de la vérification d'identité + logs détaillés | 12h   |
+| `/token`         | -           | -        | Problème bloquant          | Test avec utilisateurs valides et vérification config | 4h    |
+| Tous endpoints   | -           | -        | Tests incomplets            | Résolution authentification avant évaluation complète | 24h   |
+| Saturation CPU   | Potentielle | < 80%    | Limitation CPU possible     | Vérification ressources serveur et monitoring | 8h    |
 
 ## 4.2 Justification des Actions Correctives
 
-### 4.2.1 Optimisation de l'Authentification (`/token`)
+### 4.2.1 Résolution des Échecs d'Authentification (`/token`)
 
 **Problème détaillé**: 
-L'authentification est un goulot d'étranglement avec un temps médian de 780ms, bien au-dessus du seuil acceptable de 300ms. L'analyse des logs montre que la vérification des identifiants et la génération du token JWT sont les étapes les plus lentes.
+L'authentification échoue systématiquement (100% d'erreurs) malgré des temps de réponse exceptionnellement rapides (médiane de 19ms, moyenne de 24.58ms). Cette situation bloque l'exécution des autres tests puisque l'obtention d'un token JWT valide est un prérequis pour accéder aux autres endpoints.
 
-**Solution proposée**:
-- **Cache Redis pour les tokens**: Stocker temporairement les tokens JWT valides
-- **Réduction de la complexité du hachage**: Ajuster le coût du bcrypt (actuellement trop élevé)
-- **Optimisation de la génération JWT**: Utiliser une bibliothèque plus performante
+**Solutions proposées**:
+- **Vérification des identifiants**: Confirmer que les identifiants utilisés dans le script de test correspondent à un utilisateur valide dans la base de données
+- **Format de requête**: Tester des formats alternatifs (JSON vs form-data) pour les requêtes d'authentification
+- **Journalisation améliorée**: Ajouter des logs détaillés pour identifier la cause précise des échecs
+- **Tests manuels**: Valider le fonctionnement de l'authentification avec un outil comme Postman avant de relancer les tests de charge
 
 **Métriques attendues après correction**:
-- Temps de réponse médian < 200ms
-- Réduction de 75% du temps CPU pour l'authentification
-- Capacité d'authentification doublée
+- Taux de succès d'authentification > 99.5%
+- Maintien des excellents temps de réponse actuels (< 50ms)
+- Déblocage des tests sur les autres endpoints
 
-### 4.2.2 Optimisation des Requêtes GET (`/clients`)
+### 4.2.2 Vérification des Ressources Système
 
-**Problème détaillé**:
-La récupération de la liste des clients prend 350ms en médiane et génère une forte charge sur la base de données, particulièrement lors des pics d'utilisation.
+**Problème potentiel**:
+Une hypothèse importante est que la saturation du CPU pourrait être la cause des échecs d'authentification lors des tests avec 300 utilisateurs simultanés. Même si les temps de réponse sont très rapides (19ms en médiane), le système pourrait refuser des connexions ou provoquer des timeouts si les ressources serveur sont saturées.
+
+**Solutions proposées**:
+- **Monitoring des ressources** : Mettre en place une surveillance de l'utilisation CPU/mémoire pendant les tests
+- **Tests progressifs** : Exécuter des tests avec un nombre croissant d'utilisateurs (10, 50, 100, 200, 300) pour identifier le seuil de saturation
+- **Dimensionnement des ressources** : Si nécessaire, augmenter les ressources serveur ou optimiser le code pour réduire l'utilisation CPU
+
+**Métriques attendues après correction**:
+- Utilisation CPU sous 80% même à pleine charge
+- Stabilité du système avec 300 utilisateurs simultanés
+
+### 4.2.3 Optimisation des Requêtes GET (`/clients`) - Pour les prochains tests
+
+**Problème à anticiper**:
+Une fois l'authentification résolue, nous pourrons évaluer les performances des autres endpoints. La récupération de la liste des clients pourrait générer une forte charge sur la base de données, particulièrement lors des pics d'utilisation.
 
 **Solution proposée**:
 - **Indexation optimisée**: Création d'index composites sur les champs fréquemment utilisés

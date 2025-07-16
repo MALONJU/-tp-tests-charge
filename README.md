@@ -96,10 +96,10 @@ Les résultats détaillés sont disponibles dans les formats suivants:
 
 Les principaux résultats montrent:
 
-- Temps de réponse moyen: 520ms
-- Taux d'erreur global: 2%
+- Temps de réponse moyen: 24.58ms
+- Taux d'erreur global: 100%
 - Capacité maximale: 300 utilisateurs simultanés
-- RPS (Requêtes par seconde) maximum: 38.2
+- RPS (Requêtes par seconde): 10
 
 ## 6. Analyses et recommandations
 
@@ -107,6 +107,7 @@ Les analyses et recommandations sont disponibles dans plusieurs documents struct
 
 - **Hypothèses et estimations** : [`documentation/testing/estimation_charge.md`](documentation/testing/estimation_charge.md)
 - **Résultats des tests** : [`documentation/testing/resultats_locust.md`](documentation/testing/resultats_locust.md)
+- **Analyse des tests échoués** : [`documentation/testing/locust_failed_tests_analysis.md`](documentation/testing/locust_failed_tests_analysis.md)
 - **Plan d'actions correctives** : [`documentation/optimization/plan_actions_correctives.md`](documentation/optimization/plan_actions_correctives.md)
 - **Benchmark d'outils** : [`documentation/testing/benchmark_outils.md`](documentation/testing/benchmark_outils.md)
 - **Documentation complète** : [`documentation/testing/documentation_complete_charge.md`](documentation/testing/documentation_complete_charge.md)
