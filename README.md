@@ -130,8 +130,8 @@ Le dépôt est organisé selon les meilleures pratiques:
 
 - **Branches**: 
   - `main`: code stable et fonctionnel
-  - `develop`: développement en cours
-  - `feature/*`: nouvelles fonctionnalités
+  - `master`: projet initial
+  - `harena/load-testing`, `bibiche/load-testing`: TP
 
 - **Documentation**: 
   - Chaque dossier contient un README.md explicatif
