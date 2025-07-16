@@ -80,7 +80,7 @@ Le test a été configuré avec les paramètres suivants :
 
 ### 6.3.1 Graphique de Performance
 
-![Graphique Locust](/images/locust_performance.png)
+![Graphique Locust](/images/locust_performance.PNG)
 
 *Figure 1: Temps de réponse et nombre de requêtes pendant la durée du test*
 
