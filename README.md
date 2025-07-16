@@ -152,6 +152,15 @@ Pour contribuer au projet:
 4. Pousser la branche (`git push origin feature/amazing-feature`)
 5. Ouvrir une Pull Request
 
-## 8. Licence
+## 8. Auteurs
+
+Ce projet a été réalisé par :
+
+- MALONJU Bibiche
+- ANDRIAMANANJARA MANDIMBY Harena
+- BAH Elhadj Ibrahima
+- TABAR LABONNE Baptiste
+
+## 9. Licence
 
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
