@@ -1,0 +1,12 @@
+Model,Champ,Type,Contraintes,Norme
+Client,id,string,optionnel,UUID v4
+Client,name,string,requis,
+Client,email,string,requis,format email,RFC 5322
+Client,phone,string,requis,format téléphone,E.164
+Client,address,object,requis,
+Client,created_at,datetime,optionnel,ISO 8601
+Client,updated_at,datetime,optionnel,ISO 8601
+Address,street,string,requis,
+Address,city,string,requis,
+Address,zip,string,requis,format code postal,
+Address,country,string,requis,ISO 3166-1
