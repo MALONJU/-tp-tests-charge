@@ -37,8 +37,18 @@ pip install -r requirements.txt
 
 ```
 /
-├── charge_estimation/       # Estimations et analyses de charge
-├── documentation/           # Documentation additionnelle
+├── documentation/           # Documentation du projet
+│   ├── data/                # Documentation liée aux données
+│   │   ├── qualite_donnees.md    # Qualité des données
+│   │   └── fiabilite_donnees.md  # Fiabilité des données
+│   ├── testing/             # Documentation liée aux tests
+│   │   ├── estimation_charge.md       # Estimation de charge
+│   │   ├── resultats_locust.md        # Résultats des tests
+│   │   ├── benchmark_outils.md        # Benchmark d'outils
+│   │   └── documentation_complete_charge.md  # Documentation complète
+│   └── optimization/        # Documentation liée à l'optimisation
+│       └── plan_actions_correctives.md # Plan d'actions correctives
+├── charge_estimation/       # Version originale des estimations de charge
 ├── images/                  # Captures d'écran et graphiques
 ├── locust_tests/            # Tests de charge spécifiques
 ├── rapports/                # Rapports d'analyse au format CSV/JSON
@@ -93,14 +103,17 @@ Les principaux résultats montrent:
 
 ## 6. Analyses et recommandations
 
-L'analyse complète est disponible dans le document `charge_estimation/charge_estimation.md`, qui inclut:
+Les analyses et recommandations sont disponibles dans plusieurs documents structurés :
 
-- Hypothèses de trafic
-- Profils utilisateurs
-- Modèle de charge
-- Plan d'actions correctives
-- Benchmark d'outils
-- Recommandations d'infrastructure
+- **Hypothèses et estimations** : [`documentation/testing/estimation_charge.md`](documentation/testing/estimation_charge.md)
+- **Résultats des tests** : [`documentation/testing/resultats_locust.md`](documentation/testing/resultats_locust.md)
+- **Plan d'actions correctives** : [`documentation/optimization/plan_actions_correctives.md`](documentation/optimization/plan_actions_correctives.md)
+- **Benchmark d'outils** : [`documentation/testing/benchmark_outils.md`](documentation/testing/benchmark_outils.md)
+- **Documentation complète** : [`documentation/testing/documentation_complete_charge.md`](documentation/testing/documentation_complete_charge.md)
+
+La documentation sur la qualité et fiabilité des données est disponible dans :
+- [`documentation/data/qualite_donnees.md`](documentation/data/qualite_donnees.md)
+- [`documentation/data/fiabilite_donnees.md`](documentation/data/fiabilite_donnees.md)
 
 Principales recommandations:
 
